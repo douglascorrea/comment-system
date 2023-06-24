@@ -10,7 +10,7 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'body', 'parent_comment_id'];
-    protected $visible = ['name', 'body', 'childComments'];
+    protected $visible = ['name', 'body', 'childComments', 'created_at'];
 
 
     public function scopeCommentsAndChilds($query)
@@ -51,7 +51,7 @@ class Comment extends Model
     {
 
         return collect(range(0, config('comment.how_deep_comments_are_allowed')-1))
-            ->map(fn($_) => "childComment")
+            ->map(fn($_) => "childComments")
             ->join('.');
 
     }
