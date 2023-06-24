@@ -9,9 +9,9 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $visible = ['name', 'body', 'child_comments'];
+    protected $visible = ['name', 'body', 'childComments'];
 
-    public function child_comments()
+    public function childComments()
     {
         return $this->hasMany(Comment::class, 'parent_comment_id');
     }

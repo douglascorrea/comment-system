@@ -15,4 +15,4 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::apiResource('/comment', CommentController::class)->only(['store', 'index']);
+Route::apiResource('/comment', CommentController::class)->only(['store', 'index'])->name('comment.store', 'comment.index');
