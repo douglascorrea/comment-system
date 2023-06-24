@@ -10,7 +10,7 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'body', 'parent_comment_id'];
-    protected $visible = ['name', 'body', 'childComments', 'created_at'];
+    protected $visible = ['id','name', 'body', 'childComments', 'created_at'];
 
 
     public function scopeCommentsAndChilds($query)
