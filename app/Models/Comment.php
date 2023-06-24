@@ -9,11 +9,13 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'body', 'parent_comment_id'];
     protected $visible = ['name', 'body', 'childComments'];
+
 
     public function scopeCommentsAndChilds($query)
     {
-        return $query->with('childComments.childComments.childComments')
+        return $query->with(self::getChildCommentsClause())
             ->whereNull('parent_comment_id')
             ->latest();
     }
@@ -21,6 +23,37 @@ class Comment extends Model
     public function childComments()
     {
         return $this->hasMany(Comment::class, 'parent_comment_id');
+    }
+
+    public function parentComment()
+    {
+        return $this->belongsTo(Comment::class, 'parent_comment_id');
+    }
+
+    public function hasMaxParents()
+    {
+        return $this->howDeepParents() >= config('comment.how_deep_comments_are_allowed');
+    }
+
+
+    public function howDeepParents()
+    {
+        $count = 0;
+        $parent = $this->parentComment;
+        while ($parent) {
+            $count++;
+            $parent = $parent->parentComment;
+        }
+        return $count;
+    }
+
+    private static function getChildCommentsClause()
+    {
+
+        return collect(range(0, config('comment.how_deep_comments_are_allowed')-1))
+            ->map(fn($_) => "childComment")
+            ->join('.');
+
     }
 
 }
