@@ -12,9 +12,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return Comment::with('childComments.childComments.childComments')
-            ->latest()
-            ->whereNull('parent_comment_id')
+        return Comment::commentsAndChilds()
             ->get();
     }
 
