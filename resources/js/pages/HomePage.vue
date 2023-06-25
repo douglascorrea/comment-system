@@ -1,3 +1,25 @@
+<script setup>
+import PostExcerpt from "../components/PostExcerpt.vue";
+
+const posts = [
+    {
+        id: 1,
+        title: "A single post to demonstrate comments",
+        href: "/post",
+        description:
+            "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel iusto corrupti dicta laboris incididunt.",
+        date: "Mar 25, 2023",
+        datetime: "2023-03-25",
+        category: { title: "Demonstration", href: "#" },
+        author: {
+            name: "Douglas Correa",
+            role: "Senior Software Engineer",
+            href: "#",
+            imageUrl: "https://i.pravatar.cc/100",
+        },
+    },
+];
+</script>
 <template>
     <div class="bg-white py-24 sm:py-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
@@ -21,26 +43,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import PostExcerpt from "../components/PostExcerpt.vue";
-
-const posts = [
-    {
-        id: 1,
-        title: "A single post to demonstrate comments",
-        href: "/post",
-        description:
-            "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel iusto corrupti dicta laboris incididunt.",
-        date: "Mar 25, 2023",
-        datetime: "2023-03-25",
-        category: { title: "Demonstration", href: "#" },
-        author: {
-            name: "Douglas Correa",
-            role: "Senior Software Engineer",
-            href: "#",
-            imageUrl: "https://i.pravatar.cc/100",
-        },
-    },
-];
-</script>
