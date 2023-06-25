@@ -13,7 +13,7 @@
             <div v-html="post.content"></div>
         </div>
     </div>
-    <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 my-5">
+    <section class="bg-white dark:bg-gray-900 py-8 lg:py-12 mt-5">
         <div class="max-w-2xl mx-auto px-4">
             <div class="flex justify-between items-center mb-6">
                 <h2
