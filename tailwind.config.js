@@ -6,6 +6,11 @@ module.exports = {
         "./resources/**/*.js",
         "./resources/**/*.vue",
     ],
+    safelist: [
+        {
+            pattern: /ml-*/,
+        }
+    ],
     theme: {
         extend: {
             fontFamily: {

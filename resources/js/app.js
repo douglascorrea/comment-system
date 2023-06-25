@@ -1,4 +1,3 @@
-import './bootstrap';
 import '../css/app.css';
 // bootstrap vue app
 import { createApp } from "vue";

@@ -1,4 +1,5 @@
 <script setup>
+
 defineProps({
     comment: {
         type: Object,
@@ -8,6 +9,16 @@ defineProps({
         type: Number,
         required: true,
     },
+    isReply: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    depth: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
 });
 </script>
 
@@ -16,9 +27,11 @@ defineProps({
         class="p-6 mb-6 text-base bg-white dark:bg-gray-900"
         :class="{
             'rounded-lg': commentIndex === 0,
-            'ml-6': comment.isReply,
             'border-t border-gray-200 dark:border-gray-700':
                 commentIndex > 0 && !comment.isReply,
+        }"
+        :style="{
+            marginLeft: depth * 1.5 + 'rem',
         }"
     >
         <footer class="flex justify-between items-center mb-2">
@@ -28,9 +41,12 @@ defineProps({
                 >
                     <img
                         class="mr-2 w-6 h-6 rounded-full"
-                        :src="comment.pictureUrl"
-                        :alt="comment.user"
-                    />{{ comment.user }}
+                        :src="
+                            comment.pictureUrl ||
+                            'http://i.pravatar.cc/100?u={{ comment.id }}'
+                        "
+                        :alt="comment.name"
+                    />{{ comment.name }}
                 </p>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     <!--                    <time-->
@@ -39,14 +55,17 @@ defineProps({
                     <!--                        title="February 12th, 2022"-->
                     <!--                    >Feb. 12, 2022-->
                     <!--                    </time>-->
-                    <time pubdate :datetime="comment.date" :title="comment.date"
-                        >{{ comment.date }}
+                    <time
+                        pubdate
+                        :datetime="comment.created_at"
+                        :title="comment.created_at"
+                        >{{ comment.created_at }}
                     </time>
                 </p>
             </div>
         </footer>
         <p class="text-gray-500 dark:text-gray-400">
-            {{ comment.content }}
+            {{ comment.body }}
         </p>
         <div class="flex items-center mt-4 space-x-4">
             <button
@@ -72,6 +91,14 @@ defineProps({
             </button>
         </div>
     </article>
+    <CommentItem
+        v-for="child in comment.child_comments"
+        :key="child.id"
+        :comment-index=0
+        :comment="child"
+        :is-reply="true"
+        :depth="depth + 1"
+    />
 </template>
 
 <style scoped></style>

@@ -1,7 +1,7 @@
 <script setup>
 import PostContent from "../components/PostContent.vue";
 import CommentsSection from "../components/CommentsSection.vue";
-
+//
 const post = {
     id: 1,
     title: "A single post to demonstrate comments",
