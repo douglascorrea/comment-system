@@ -1,6 +1,9 @@
 <script setup>
-import CommentForm from "./CommentForm.vue";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import { ref } from "vue";
+import CommentForm from "./CommentForm.vue";
 
 const emit = defineEmits(["getComments"]);
 const props = defineProps({
@@ -29,6 +32,8 @@ const getComments = () => {
     replying.value = false;
     emit("getComments");
 };
+dayjs.extend(relativeTime);
+dayjs.extend(advancedFormat);
 </script>
 
 <template>
@@ -58,17 +63,15 @@ const getComments = () => {
                     />{{ comment.name }}
                 </p>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    <!--                    <time-->
-                    <!--                        pubdate-->
-                    <!--                        datetime="2022-02-12"-->
-                    <!--                        title="February 12th, 2022"-->
-                    <!--                    >Feb. 12, 2022-->
-                    <!--                    </time>-->
                     <time
                         pubdate
-                        :datetime="comment.created_at"
-                        :title="comment.created_at"
-                        >{{ comment.created_at }}
+                        :datetime="
+                            dayjs(comment.created_at).format('YYYY-MM-DD')
+                        "
+                        :title="
+                            dayjs(comment.created_at).format('MMMM Do, YYYY')
+                        "
+                        >{{ dayjs(comment.created_at).fromNow() }}
                     </time>
                 </p>
             </div>
