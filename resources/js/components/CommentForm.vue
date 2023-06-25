@@ -1,21 +1,31 @@
 <script setup>
 const emit = defineEmits(["getComments"]);
+const props = defineProps({
+    newParentId: {
+        type: Number,
+        default: null,
+    },
+});
 
 import { ref } from "vue";
 import { useAxios } from "@vueuse/integrations/useAxios";
 
-let newPost = ref("");
+let newComment = ref("");
 
 const createComment = async () => {
-    console.log(newPost.value);
+    const data = {
+        body: newComment.value,
+        name: "Another Solitary Reader",
+    };
+    if (props.newParentId) {
+        data.parent_comment_id = props.newParentId;
+    }
+    console.log(newComment.value);
     const { execute } = useAxios(
         "/api/comment",
         {
             method: "POST",
-            data: {
-                body: newPost.value,
-                name: "Another Solitary Reader",
-            },
+            data,
         },
         {
             immediate: false,
@@ -23,7 +33,7 @@ const createComment = async () => {
     );
     await execute();
 
-    newPost.value = "";
+    newComment.value = "";
     emit("getComments");
 };
 </script>
@@ -36,7 +46,7 @@ const createComment = async () => {
             <label for="comment" class="sr-only">Your comment</label>
             <textarea
                 id="comment"
-                v-model="newPost"
+                v-model="newComment"
                 rows="6"
                 class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                 placeholder="Write a comment..."
@@ -44,8 +54,9 @@ const createComment = async () => {
             ></textarea>
         </div>
         <button
+            :disabled="newComment.length < 3"
             type="submit"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 disabled:opacity-50 disabled:cursor-not-allowed"
         >
             Post comment
         </button>

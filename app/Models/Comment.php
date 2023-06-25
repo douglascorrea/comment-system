@@ -22,7 +22,7 @@ class Comment extends Model
 
     public function childComments()
     {
-        return $this->hasMany(Comment::class, 'parent_comment_id');
+        return $this->hasMany(Comment::class, 'parent_comment_id')->latest();
     }
 
     public function parentComment()

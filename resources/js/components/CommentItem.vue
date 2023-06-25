@@ -1,6 +1,9 @@
 <script setup>
+import CommentForm from "./CommentForm.vue";
+import { ref } from "vue";
 
-defineProps({
+const emit = defineEmits(["getComments"]);
+const props = defineProps({
     comment: {
         type: Object,
         required: true,
@@ -20,6 +23,12 @@ defineProps({
         default: 0,
     },
 });
+let replying = ref(false);
+const getComments = () => {
+    console.log("getComments emitido pelo form comment id" + props.comment.id);
+    replying.value = false;
+    emit("getComments");
+};
 </script>
 
 <template>
@@ -67,10 +76,11 @@ defineProps({
         <p class="text-gray-500 dark:text-gray-400">
             {{ comment.body }}
         </p>
-        <div class="flex items-center mt-4 space-x-4">
+        <div v-if="depth < 3" class="flex items-center mt-4 space-x-4">
             <button
                 type="button"
                 class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400"
+                @click="replying = !replying"
             >
                 <svg
                     aria-hidden="true"
@@ -91,13 +101,20 @@ defineProps({
             </button>
         </div>
     </article>
+    <CommentForm
+        v-if="replying"
+        :new-parent-id="comment.id"
+        :comment-index="commentIndex"
+        @get-comments="getComments"
+    />
     <CommentItem
         v-for="child in comment.child_comments"
         :key="child.id"
-        :comment-index=0
+        :comment-index="0"
         :comment="child"
         :is-reply="true"
         :depth="depth + 1"
+        @get-comments="getComments"
     />
 </template>
 

@@ -29,6 +29,7 @@ execute();
                 :comment-index="commentIndex"
                 :depth="0"
                 :is-reply="false"
+                @get-comments="execute"
             />
         </div>
     </section>
