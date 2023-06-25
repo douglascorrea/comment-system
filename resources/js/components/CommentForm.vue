@@ -1,17 +1,42 @@
 <script setup>
+const emit = defineEmits(["getComments"]);
 
+import { ref } from "vue";
+import { useAxios } from "@vueuse/integrations/useAxios";
+
+let newPost = ref("");
+
+const createComment = async () => {
+    console.log(newPost.value);
+    const { execute } = useAxios(
+        "/api/comment",
+        {
+            method: "POST",
+            data: {
+                body: newPost.value,
+                name: "Another Solitary Reader",
+            },
+        },
+        {
+            immediate: false,
+        }
+    );
+    await execute();
+
+    newPost.value = "";
+    emit("getComments");
+};
 </script>
 
 <template>
-    <form class="mb-6">
+    <form class="mb-6" @submit.prevent="createComment">
         <div
             class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         >
-            <label for="comment" class="sr-only"
-            >Your comment</label
-            >
+            <label for="comment" class="sr-only">Your comment</label>
             <textarea
                 id="comment"
+                v-model="newPost"
                 rows="6"
                 class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                 placeholder="Write a comment..."
@@ -25,9 +50,6 @@
             Post comment
         </button>
     </form>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
