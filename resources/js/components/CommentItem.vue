@@ -52,7 +52,7 @@ const getComments = () => {
                         class="mr-2 w-6 h-6 rounded-full"
                         :src="
                             comment.pictureUrl ||
-                            'http://i.pravatar.cc/100?u={{ comment.id }}'
+                            `http://i.pravatar.cc/100?u=${comment.name}`
                         "
                         :alt="comment.name"
                     />{{ comment.name }}
