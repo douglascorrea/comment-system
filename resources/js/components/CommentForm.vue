@@ -34,6 +34,7 @@ const createComment = async () => {
     );
     await execute();
 
+    newName.value = "";
     newComment.value = "";
     emit("getComments");
 };
@@ -67,7 +68,7 @@ const createComment = async () => {
             ></textarea>
         </div>
         <button
-            :disabled="newComment.length < 3"
+            :disabled="newComment.length < 3 || newName.length < 3"
             type="submit"
             class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 disabled:opacity-50 disabled:cursor-not-allowed"
         >
